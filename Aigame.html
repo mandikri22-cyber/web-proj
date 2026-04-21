@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Skater Tic Tac Toe</title>
+
+<style>
+
+/* =========================
+   🌊 NAVBAR
+========================= */
+
+.beach-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+}
+
+.beach-nav-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.beach-logo {
+    font-weight: 700;
+    color: #3f8fa3;
+    font-size: 1.2rem;
+}
+
+.beach-links {
+    list-style: none;
+    display: flex;
+    gap: 22px;
+}
+
+.beach-links a {
+    text-decoration: none;
+    color: #3f8fa3;
+    font-weight: 600;
+}
+
+.beach-toggle {
+    display: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .beach-toggle { display:block; }
+
+    .beach-links {
+        position:absolute;
+        top:60px;
+        right:0;
+        background:white;
+        flex-direction:column;
+        width:200px;
+        padding:15px;
+        display:none;
+    }
+
+    .beach-links.active { display:flex; }
+}
+
+/* =========================
+   PAGE
+========================= */
+
+body{
+    margin:0;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    overflow:hidden;
+    transition:0.6s ease;
+    background:#df5dad;
+}
+
+body.win{ background:#4aa3ff !important; }
+body.lose{ background:#e7c9a5 !important; }
+body.tie{ background:#ff9f43 !important; }
+
+/* =========================
+   GAME
+========================= */
+
+.game{
+    text-align:center;
+}
+
+.scoreboard{
+    position:fixed;
+    right:20px;
+    top:120px;
+    width:200px;
+    padding:15px;
+    background:rgba(255,255,255,0.15);
+    border:1px solid white;
+    color:white;
+    font-size:16px;
+}
+
+/* BOARD */
+.board{
+    display:grid;
+    grid-template-columns:repeat(3,120px);
+    grid-template-rows:repeat(3,120px);
+    margin-top:20px;
+    transition:0.5s;
+}
+
+.board.hide{
+    opacity:0;
+    pointer-events:none;
+}
+
+.cell{
+    border:2px solid white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:3rem;
+    cursor:pointer;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:10000;
+}
+
+.resultText{
+    position:absolute;
+    font-size:80px;
+    opacity:0;
+    transition:1s;
+}
+
+.showText{ opacity:1; }
+
+/* =========================
+   SKATER GIRL
+========================= */
+
+.skater{
+    position:absolute;
+    bottom:80px;
+    left:-200px;
+    width:140px;
+    height:180px;
+}
+
+.head{
+    width:45px;
+    height:45px;
+    background:linear-gradient(#f6d7c7,#eac0a8);
+    border-radius:50%;
+    margin:auto;
+    position:relative;
+}
+
+.hat{
+    width:55px;
+    height:12px;
+    background:white;
+    position:absolute;
+    top:-6px;
+    left:-5px;
+}
+
+.hair-back{
+    position:absolute;
+    width:75px;
+    height:120px;
+    background:linear-gradient(#f2d36b,#d8b84c);
+    top:10px;
+    left:35px;
+    border-radius:40px;
+}
+
+.hair-front{
+    position:absolute;
+    width:35px;
+    height:90px;
+    background:linear-gradient(#f2d36b,#e3c255);
+    top:15px;
+    left:5px;
+    border-radius:20px;
+}
+
+.body{
+    width:35px;
+    height:50px;
+    background:#f5f5f5;
+    margin:5px auto;
+    border-radius:6px;
+}
+
+.arms{
+    width:60px;
+    height:10px;
+    background:#f2c9b4;
+    margin:auto;
+    border-radius:10px;
+}
+
+.legs{
+    width:32px;
+    height:45px;
+    background:linear-gradient(#b9d7f0,#8fbbe0);
+    margin:auto;
+    border-radius:6px;
+}
+
+.shoes{
+    width:45px;
+    height:12px;
+    background:#111;
+    margin:auto;
+    border-radius:4px;
+}
+
+.boardSkate{
+    width:95px;
+    height:12px;
+    background:white;
+    margin:10px auto;
+    border-radius:20px;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes skateAcross{
+    0%{ left:-200px; }
+    100%{ left:110%; }
+}
+
+@keyframes ollie{
+    40%{ transform:translateY(-80px) rotate(-20deg); }
+    60%{ transform:translateY(0px); }
+}
+
+@keyframes crash{
+    50%{ transform:rotate(90deg) translateY(50px); }
+    100%{ transform:rotate(110deg) translateY(80px); }
+}
+
+.winMove{ animation:skateAcross 4s linear forwards, ollie 4s ease-in-out; }
+.loseMove{ animation:skateAcross 4s linear forwards, crash 4s ease-in-out; }
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="beach-nav">
+<div class="beach-nav-container">
+<div class="beach-logo">🌊 BeachSite</div>
+<div class="beach-toggle" onclick="toggleNav()">☰</div>
+<ul class="beach-links" id="beachLinks">
+<li><a href="Index.html">Index</a></li>
+<li><a href="AiGame.html">AiGame</a></li>
+<li><a href="Scratch.html">Scratch</a></li>
+</ul>
+</div>
+</nav>
+
+<!-- SCOREBOARD -->
+<div class="scoreboard" id="scoreboard"></div>
+
+<!-- GAME -->
+<div class="game">
+<h1>SKATER TIC TAC TOE</h1>
+<div class="board" id="board"></div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay">
+<div class="resultText" id="resultText"></div>
+
+<div class="skater" id="skater">
+<div class="hair-back"></div>
+<div class="head"><div class="hat"></div></div>
+<div class="hair-front"></div>
+<div class="body"></div>
+<div class="arms"></div>
+<div class="legs"></div>
+<div class="shoes"></div>
+<div class="boardSkate"></div>
+</div>
+</div>
+
+<script>
+
+/* NAV */
+function toggleNav(){
+document.getElementById("beachLinks").classList.toggle("active");
+}
+
+/* STATE */
+const board=document.getElementById("board");
+const resultText=document.getElementById("resultText");
+const skater=document.getElementById("skater");
+const scoreboard=document.getElementById("scoreboard");
+
+let cells=[];
+let gameActive=true;
+
+/* MATCH SYSTEM */
+let p1Rounds=0;
+let cpuRounds=0;
+let roundCount=0;
+
+const wins=[
+[0,1,2],[3,4,5],[6,7,8],
+[0,3,6],[1,4,7],[2,5,8],
+[0,4,8],[2,4,6]
+];
+
+/* BUILD BOARD */
+for(let i=0;i<9;i++){
+const c=document.createElement("div");
+c.classList.add("cell");
+board.appendChild(c);
+cells.push(c);
+}
+
+/* CLICK */
+cells.forEach(c=>{
+c.addEventListener("click",()=>{
+if(!gameActive || c.textContent!=="") return;
+
+c.textContent="X";
+
+if(check("X")) return end("WIN");
+if(draw()) return end("TIE");
+
+gameActive=false;
+setTimeout(cpuMove,2000);
+});
+});
+
+/* 🧠 WEAKER AI (BEATABLE) */
+function cpuMove(){
+
+let open=cells.filter(c=>c.textContent==="");
+
+let smart=Math.random()<0.6;
+
+/* WIN */
+if(smart){
+for(let i of open){
+i.textContent="O";
+if(check("O")) return end("LOSE");
+i.textContent="";
+}
+
+/* BLOCK */
+for(let i of open){
+i.textContent="X";
+if(check("X")){
+i.textContent="O";
+gameActive=true;
+return;
+}
+i.textContent="";
+}
+
+/* CENTER */
+if(cells[4].textContent===""){
+cells[4].textContent="O";
+gameActive=true;
+return;
+}
+}
+
+/* RANDOM */
+if(open.length){
+open[Math.floor(Math.random()*open.length)].textContent="O";
+}
+
+if(check("O")) return end("LOSE");
+if(draw()) return end("TIE");
+
+gameActive=true;
+}
+
+/* CHECK */
+function check(p){
+return wins.some(w=>w.every(i=>cells[i].textContent===p));
+}
+
+/* DRAW */
+function draw(){
+return cells.every(c=>c.textContent!=="");
+}
+
+/* END GAME */
+function end(type){
+
+gameActive=false;
+board.classList.add("hide");
+
+skater.style.left="-200px";
+skater.classList.remove("winMove","loseMove");
+void skater.offsetWidth;
+
+/* WIN */
+if(type==="WIN"){
+p1Rounds++;
+document.body.classList.add("win");
+skater.classList.add("winMove");
+setTimeout(()=>show("YOU WON"),4000);
+}
+
+/* LOSE */
+if(type==="LOSE"){
+cpuRounds++;
+document.body.classList.add("lose");
+skater.classList.add("loseMove");
+setTimeout(()=>show("YOU LOST"),4000);
+}
+
+/* TIE */
+if(type==="TIE"){
+document.body.classList.add("tie");
+setTimeout(()=>show("TIE"),1000);
+}
+
+roundCount++;
+update();
+
+/* MATCH END (BEST OF 3) */
+setTimeout(()=>{
+
+if(p1Rounds===2){
+alert("🏆 YOU WIN THE MATCH!");
+resetMatch();
+return;
+}
+
+if(cpuRounds===2){
+alert("💀 COMPUTER WINS THE MATCH!");
+resetMatch();
+return;
+}
+
+document.body.classList.remove("win","lose","tie");
+reset();
+
+},5000);
+}
+
+/* SCOREBOARD */
+function update(){
+scoreboard.innerHTML=
+`Round: ${roundCount}/3<br>
+Player 1: ${p1Rounds}<br>
+Computer: ${cpuRounds}`;
+}
+
+/* TEXT */
+function show(t){
+resultText.textContent=t;
+resultText.classList.add("showText");
+}
+
+/* RESET ROUND */
+function reset(){
+cells.forEach(c=>c.textContent="");
+gameActive=true;
+board.classList.remove("hide");
+resultText.classList.remove("showText");
+}
+
+/* RESET MATCH */
+function resetMatch(){
+p1Rounds=0;
+cpuRounds=0;
+roundCount=0;
+update();
+reset();
+}
+
+update();
+
+</script>
+
+</body>
+</html>

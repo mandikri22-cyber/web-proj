@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mandi White | Resume</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   🌊 NAVBAR (INTEGRATED)
+========================= */
+
+.beach-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    z-Index: 9999;
+    font-family: Arial, sans-serif;
+}
+
+.beach-nav-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.beach-logo {
+    font-weight: 700;
+    color: #3f8fa3;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.beach-links {
+    list-style: none;
+    display: flex;
+    gap: 22px;
+}
+
+.beach-links a {
+    text-decoration: none;
+    color: #3f8fa3;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.beach-links a:hover {
+    color: #6fb7c9;
+}
+
+.beach-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #3f8fa3;
+}
+
+@media (max-width: 768px) {
+    .beach-toggle {
+        display: block;
+    }
+
+    .beach-links {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        width: 200px;
+        padding: 15px;
+        display: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .beach-links.active {
+        display: flex;
+    }
+}
+
+body {
+    padding-top: 80px;
+}
+
+/* =========================
+   🌴 RESUME STYLES
+========================= */
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background: linear-gradient(to bottom, #cfeaf1, #fbf6ec);
+    color:#2c3e50;
+}
+
+.hero{
+    text-align:center;
+    padding:80px 20px;
+}
+
+.hero h1{
+    font-size:3rem;
+    color:#3f8fa3;
+}
+
+.hero h2{
+    font-weight:300;
+}
+
+section{
+    max-width:900px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-top:15px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+h3{
+    color:#3f8fa3;
+}
+
+/* skills */
+.skills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.skill{
+    background:#f4e8d4;
+    padding:8px 14px;
+    border-radius:20px;
+}
+
+/* footer */
+footer{
+    text-align:center;
+    padding:30px;
+    background:#6fb7c9;
+    color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 🌊 NAVBAR START -->
+<nav class="beach-nav">
+    <div class="beach-nav-container">
+
+        <div class="beach-logo">🌊 BeachSite</div>
+
+        <div class="beach-toggle" onclick="toggleBeachNav()">☰</div>
+
+        <ul class="beach-links" id="beachLinks">
+            <li><a href="Index.html"> Index</a></li>
+            <li><a href="AiGame.html"> AiGame</a></li>
+            <li><a href="Scratch.html"> Scratch</a></li>
+        </ul>
+
+    </div>
+</nav>
+<!-- 🌊 NAVBAR END -->
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Mandi Malm</h1>
+    <h2>Customer Service • Sales • Hospitality</h2>
+</div>
+
+<!-- ABOUT -->
+<section>
+<h3>About Me</h3>
+<div class="card">
+Hardworking, personable, and energetic professional with experience in fast-paced environments. Fluent in Spanish with strong communication and leadership skills.
+</div>
+</section>
+
+<!-- EDUCATION -->
+<section>
+<h3>Education</h3>
+<div class="card">Brigham Young University (2023–2028)</div>
+<div class="card">Lone Peak High School (2018–2022)</div>
+</section>
+
+<!-- EXPERIENCE -->
+<section>
+<h3>Experience</h3>
+<div class="card">Costa Vida – Customer Service</div>
+<div class="card">Trove Brands – Warehouse Worker</div>
+<div class="card">Modballs – Sales Representative</div>
+<div class="card">Missionary Service – Leadership & Spanish Fluency</div>
+</section>
+
+<!-- SKILLS -->
+<section>
+<h3>Skills</h3>
+<div class="card skills">
+    <div class="skill">Leadership</div>
+    <div class="skill">Customer Service</div>
+    <div class="skill">Spanish Fluent</div>
+    <div class="skill">Problem Solving</div>
+    <div class="skill">Teamwork</div>
+</div>
+</section>
+
+<footer>
+🌊 Built with beach vibes & ambition
+</footer>
+
+<script>
+
+/* =========================
+   NAV TOGGLE
+========================= */
+
+function toggleBeachNav() {
+    const menu = document.getElementById("beachLinks");
+    menu.classList.toggle("active");
+}
+
+</script>
+
+</body>
+</html>
